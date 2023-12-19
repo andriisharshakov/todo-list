@@ -1,0 +1,31 @@
+<div>
+  <h2>Todo List</h2>
+
+  <!-- Add Todo Form -->
+  <div class="add-todo-form">
+    <label for="title">Title:</label>
+    <input id="title" [(ngModel)]="newTodo.title" class="todo-input" />
+
+    <label for="description">Description:</label>
+    <textarea id="description" [(ngModel)]="newTodo.description" class="todo-input"></textarea>
+
+    <button *ngIf="!isEditMode" (click)="addTodo()" [disabled]="newTodo.title.trim() === ''" class="todo-button todo-button-add">Add Todo</button>
+    <button *ngIf="isEditMode" (click)="saveTodo()" [disabled]="newTodo.title.trim() === ''" class="todo-button todo-button-add">Save Todo</button>
+    <button *ngIf="isEditMode" (click)="clearForm()" class="todo-button todo-button-delete">Cancel editing</button>
+</div>
+
+  <!-- Todo List -->
+  <div *ngIf="todos.length === 0">
+    <span>No todos to display yet.</span>
+  </div>
+  <ul *ngIf="todos.length > 0">
+    <li *ngFor="let todo of todos" class="todo-item">
+      <input type="checkbox" [(ngModel)]="todo.isDone" (change)="updateTodoStatus(todo)" />
+      <span [ngClass]="{'completed': todo.isDone}" class="todo-text">{{ todo.title }} - {{ todo.description }}</span>
+      <div class="todo-buttons">
+        <button (click)="editTodo(todo)" class="todo-button todo-button-edit">Edit</button>
+        <button (click)="deleteTodo(todo.todoId)" class="todo-button todo-button-delete">Delete</button>
+      </div>
+    </li>
+  </ul>
+</div>
